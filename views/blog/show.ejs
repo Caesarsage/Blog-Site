@@ -1,0 +1,8 @@
+<% layout('layout/boilerplate') %>
+<ul>
+  <% for(blog of blogs) {%> 
+  <li><%= blog.title %> </li>
+  <li><%= blog.content %> </li>
+  <li><%= blog.image %> </li>
+  <% } %> 
+</ul>
