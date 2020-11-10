@@ -8,7 +8,10 @@ const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate');
 const chalk = require('chalk');
 const morgan = require('morgan');
+
 const Blog = require('./models/blogModel');
+
+const blogRouter = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -32,27 +35,17 @@ app.use(express.urlencoded({extended: true}));
 app.use(morgan('tiny'));
 app.use(methodOverride('_method'));
 
-app.get('/', (req, res)=>{
-  res.render('index')
-});
+// routes
+app.use('/blogs', blogRouter)
 
-
-app.get('/blogs',async (req, res)=>{
+app.get('/',  async (req, res)=>{
   const blogs = await Blog.find({});
-  res.render('blog/show', {
+  res.render('index', {
     blogs
   })
 })
 
-app.get('/blogs/new', (req, res)=>{
-  res.render('blog/new')
-})
-app.post('/blogs', async (req, res)=>{
-  const blogs = await new Blog(req.body.blog);
-  // blogs.save()
-  console.log(blogs);
-  res.send('successful')
-})
+
 // Connecting
 const port = process.env.PORT || 3000
 

@@ -1,1 +1,8 @@
 <% layout('layout/boilerplate') %>
+<form action="/blogs/<%=blogs._id%>?_method=PUT" method="POST">
+  <input type="text" id="title" name="blogs[title]" value="<%= blogs.title %> ">
+  <textarea id="content" cols="10" rows="5"  name="blogs[content]">
+    <%= blogs.content %> 
+  </textarea>
+  <button>submit</button>
+</form>
