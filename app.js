@@ -43,6 +43,13 @@ app.get('/',  async (req, res)=>{
   res.render('index', {
     blogs
   })
+});
+app.get('/fallback', async (req, res)=>{
+  const blogs = await Blog.find({});
+  console.log(blogs);
+  res.render('fallback', {
+    blogs
+  })
 })
 
 

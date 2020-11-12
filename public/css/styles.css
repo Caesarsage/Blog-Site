@@ -2,11 +2,12 @@ img{
   height: 450px;
   max-height:100%;
 }
-.my-card{
+.my-card, .my-list{
   transition: all 0.4s ease-in-out;
   cursor: pointer;
 }
-.my-card:hover{
+.my-card:hover,
+.my-list:hover{
   box-shadow: 2px 2px 12px #00000080;
   transition: all 0.4s ease-in-out;
 }
