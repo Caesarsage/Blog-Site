@@ -43,11 +43,6 @@
     </div>
   </div>
 </div>
-<ul>
-  <% for(let blog of blogs) {%> 
-  <li> <a href="/blogs/<%=blog._id %>"> <%= blog.title %> </a></li>
-  <% } %> 
-</ul>
 
 <!--Subscribe Modal -->
 <div class="modal fade" id="subscribe_modal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
@@ -75,3 +70,23 @@
     </div>
   </div>
 </div>
+
+<!-- Body Content -->
+<section class="home-content mt-4 ">
+  <div class="container">
+    <div class="row">
+      <% for(let blog of blogs) {%> 
+        <div class="col-md-3 mb-3">  
+          <div class="card my-card">
+            <div class="card-body">
+              <img src="<%= blog.image %>" alt="<%= blog.title %>" class="img-thumbnails">
+              <h3 class="card-title"> <%= blog.title %> </h3>
+              <p class="card-text text-muted">  <%= blog.content.slice(0, 50) %>...</p>
+              <a href="/blogs/<%=blog._id %>" class="btn btn-sm btn-primary"> Read More</a>
+            </div>
+          </div>
+        </div>  
+      <% } %> 
+    </div>
+  </div>
+</section>
