@@ -83,6 +83,7 @@
               <h3 class="card-title"> <%= blog.title %> </h3>
               <p class="card-text text-muted">  <%= blog.content.slice(0, 50) %>...</p>
               <a href="/blogs/<%=blog._id %>" class="btn btn-sm btn-primary"> Read More</a>
+              <small><%= blog.createdAt %> </small>
             </div>
           </div>
         </div>  

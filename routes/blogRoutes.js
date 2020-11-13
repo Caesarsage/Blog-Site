@@ -27,7 +27,7 @@ router.route('/:id')
   const blogs = await Blog.findById(id);
   console.log(blogs);
   if (!blogs) {
-    return res.redirect("/blogs");
+    return res.redirect("/fallback");
   }
   res.render('blog/show', {
     blogs
@@ -39,6 +39,11 @@ router.route('/:id')
   await blogs.save();
   console.log(blogs);
   res.redirect(`/blogs/${blogs._id}`)
+})
+.delete(async(req,res)=>{
+  const {id} = req.params;
+  const blogs = await Blog.findByIdAndDelete(id);
+  res.redirect('/fallback')
 });
 
 router.route('/:id/edit')
@@ -52,9 +57,6 @@ router.route('/:id/edit')
     blogs
   })
 })
-
-
-
 
 
 module.exports = router;

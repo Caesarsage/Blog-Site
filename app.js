@@ -12,6 +12,7 @@ const morgan = require('morgan');
 const Blog = require('./models/blogModel');
 
 const blogRouter = require('./routes/blogRoutes');
+const Review = require('./models/reviewModel');
 
 const app = express();
 
@@ -39,11 +40,12 @@ app.use(methodOverride('_method'));
 app.use('/blogs', blogRouter)
 
 app.get('/',  async (req, res)=>{
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({}).populate();
   res.render('index', {
     blogs
   })
 });
+
 app.get('/fallback', async (req, res)=>{
   const blogs = await Blog.find({});
   console.log(blogs);

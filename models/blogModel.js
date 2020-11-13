@@ -5,8 +5,11 @@ const BlogSchema = new Schema({
   title: String,
   image: String,
   content: String,
-},
-{
+  reviews: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Review'
+  }]
+},{
   timestamps: true
 });
 
