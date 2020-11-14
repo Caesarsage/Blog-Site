@@ -51,14 +51,26 @@
           </div>
           <button class="btn btn-success">Submit</button>
         </form>
+        <!-- Review -->
+        <div class="mb-3">
+          <% for(let review of blogs.reviews){ %>
+            <div class="card mb-3">
+              <div class="card-body">
+                <!--The Author goes here -->
+                <p class="starability-result" data-rating="<%=review.rating%>">
+                  Rated: <%= review.rating %> stars
+                </p>
+                <p class="card-text">Review: <%= review.body %> </p>
+              </div>
+              <form action="/blogs/<%=blogs._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </form>
+            </div> 
+          <%}%> 
+        </div>  
         </div>
     </div>
   </div>
 </section>
 
-<!-- Review -->
-<div class="mb-3">
-  <% for(let reviews of blogs.reviews){ %>
-    <%=reviews.body%>
-  <%}%> 
-</div>
+
