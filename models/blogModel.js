@@ -2,9 +2,15 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose
 
 const BlogSchema = new Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   image: String,
-  content: String,
+  content: {
+    type: String,
+    required: true
+  },
   reviews: [{
     type: Schema.Types.ObjectId,
     ref: 'Review'

@@ -12,7 +12,9 @@ const morgan = require('morgan');
 const Blog = require('./models/blogModel');
 
 const blogRouter = require('./routes/blogRoutes');
-const Review = require('./models/reviewModel');
+const reviewRouter = require('./routes/reviewRouters');
+const ExpressError = require('./utils/expressError');
+const catchAsync = require('./utils/catchAsync');
 
 const app = express();
 
@@ -37,22 +39,36 @@ app.use(morgan('tiny'));
 app.use(methodOverride('_method'));
 
 // routes
-app.use('/blogs', blogRouter)
+app.use('/blogs', blogRouter);
+app.use('/blogs/:id/reviews', reviewRouter)
 
-app.get('/',  async (req, res)=>{
-  const blogs = await Blog.find({}).populate();
+app.get('/', catchAsync(async (req, res)=>{
+  const blogs = await Blog.find({});
   res.render('index', {
     blogs
   })
-});
+}));
 
-app.get('/fallback', async (req, res)=>{
+app.get('/fallback', catchAsync(async (req, res)=>{
   const blogs = await Blog.find({});
   console.log(blogs);
   res.render('fallback', {
     blogs
   })
+}));
+
+app.all('*', (req, res, next)=>{ 
+  next(new ExpressError('Page not found', 404))
 })
+
+app.use((err, req, res, next)=>{
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = 'Oh no, something went wrong!!!' 
+  res.status(statusCode);
+  res.render('error', {
+    err
+  })
+});
 
 
 // Connecting

@@ -24,7 +24,7 @@ router.route('/new')
 router.route('/:id')
 .get( async(req,res)=>{
   const { id } = req.params;
-  const blogs = await Blog.findById(id);
+  const blogs = await Blog.findById(id).populate('reviews');
   console.log(blogs);
   if (!blogs) {
     return res.redirect("/fallback");
