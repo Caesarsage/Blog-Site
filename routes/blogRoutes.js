@@ -1,20 +1,21 @@
 const express = require('express');
 const Blog = require('../models/blogModel');
+const catchAsync = require('../utils/catchAsync');
 
 const router = express.Router();
 
 router.route('/')
-.get(async (req, res) =>{
+.get(catchAsync(async (req, res) =>{
   const blogs = await Blog.find({});
   res.render('index', {
     blogs
   })
-})
-.post( async (req, res)=>{
+}))
+.post( catchAsync(async (req, res)=>{
   const blogs = new Blog( req.body.blog );
   await blogs.save();
   res.redirect(`/blogs`)
-});
+}));
 
 router.route('/new')
 .get((req, res)=>{
@@ -22,7 +23,7 @@ router.route('/new')
 });
 
 router.route('/:id')
-.get( async(req,res)=>{
+.get( catchAsync(async(req,res)=>{
   const { id } = req.params;
   const blogs = await Blog.findById(id).populate('reviews');
   console.log(blogs);
@@ -32,22 +33,22 @@ router.route('/:id')
   res.render('blog/show', {
     blogs
   })
-})
-.put(async (req, res)=>{
+}))
+.put(catchAsync(async (req, res)=>{
   const { id }= req.params;
   const blogs = await Blog.findByIdAndUpdate(id , req.body.blogs , {new: true})
   await blogs.save();
   console.log(blogs);
   res.redirect(`/blogs/${blogs._id}`)
-})
-.delete(async(req,res)=>{
+}))
+.delete( catchAsync(async(req,res)=>{
   const {id} = req.params;
   const blogs = await Blog.findByIdAndDelete(id);
   res.redirect('/fallback')
-});
+}));
 
 router.route('/:id/edit')
-.get(async (req, res)=>{
+.get( catchAsync(async (req, res)=>{
   const { id }= req.params;
   const blogs = await Blog.findById(id);
   if (!blogs) {
@@ -56,7 +57,6 @@ router.route('/:id/edit')
   res.render('blog/edit', {
     blogs
   })
-})
-
+}));
 
 module.exports = router;
