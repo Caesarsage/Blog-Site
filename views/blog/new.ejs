@@ -1,6 +1,35 @@
 <% layout('layout/boilerplate') %>
+
 <form action="/blogs" method="POST">
-  <input type="text" placeholder="title" name="blog[title]">
-  <textarea id="" cols="10" rows="5" name="blog[content]"></textarea>
-  <button>submit</button>
-</form>
+  <div class="row">
+    <h1 class="text-center">New Blog</h1>
+    <div class="col-6 offset-3">
+      <form action="/blogs" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label class="form-label" for="title">Title</label>
+          <input class="form-control" type="text" name="blog[title]" id="title" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="blog">Your Blog</label>
+          <textarea class="form-control" id="blog" cols="30" rows="5" name="blog[content]" required></textarea>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="mb-3 form-file custom-file" >
+          <input type="file" class="form-file-input" id="image" name="image" multiple maxlength="5">
+            <label class="form-file-label" for="image">
+              <span class="form-file-text custom-file-label">Choose image(s)...</span>
+              <span class="form-file-button">Browse</span>
+            </label>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-success">submit</button>
+        </div>
+      </form>
+      <a class="btn btn-outline-primary" href="/blogs">All Campgrounds</a>
+    </div>
+  </div> 

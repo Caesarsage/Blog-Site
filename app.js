@@ -63,9 +63,9 @@ app.all('*', (req, res, next)=>{
 
 app.use((err, req, res, next)=>{
   const { statusCode = 500 } = err;
-  if (!err.message) err.message = 'Oh no, something went wrong!!!' 
+  if (!err.message) err.message = "Something went wrong!!!, it's not your fault but ours" 
   res.status(statusCode);
-  res.render('error', {
+  res.render('404', {
     err
   })
 });

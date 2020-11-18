@@ -11,7 +11,7 @@ router.route('/')
     blogs
   })
 }))
-.post( catchAsync(async (req, res)=>{
+.post(catchAsync(async (req, res)=>{
   const blogs = new Blog( req.body.blog );
   await blogs.save();
   res.redirect(`/blogs`)

@@ -6,13 +6,13 @@
 <section class="home-content mt-4 ">
   <div class="container">
     <div class="row">
-        <div class="col-md-9 mb-3">  
-          <div class="card my-card">
+      <div class="col-md-10 mb-3">  
+        <div class="card my-card">
+            <img src="<%= blogs.image %>" alt="<%= blogs.title %>" class="card-img-top">
             <div class="card-body">
-              <img src="<%= blogs.image %>" alt="<%= blogs.title %>" class="img-thumbnails">
               <h3 class="card-title"> <%= blogs.title %> </h3>
               <p class="card-text text-muted">  <%= blogs.content %></p>
-              <small><%= blogs.createdAt %> </small>
+              <em class="text-success"><%= blogs.createdAt.toString().substring(0, 15) %> </em>
             </div>
             <div class="card-footer row">
               <a href="/blogs/<%=blogs._id%>/edit" class="col-md-1 btn btn-info mb-3">Edit</a>
@@ -20,11 +20,45 @@
                 <button class="btn btn-danger">Delete</button>
               </form>
             </div>
+        </div>
+      </div>  
+      <!-- Achieve section -->
+      <div class="col-md-2">
+        <aside class="card text-white bg-primary mb-3">
+          <div class="card-body">
+            <h4 class="card-title">Subscribe for Newsletters</h4>
+            <p class="card-text">Get latest updates and freebies</p>
+            <form action="" method="POST">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" name="" class="form-control" id="email" placeholder="your email address">
+              </div>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-block btn-warning">Subscribe</button>
+              </div> 
+            </form>
           </div>
-        </div>  
-        <!-- REVIEW  -->
-        <div class="col-md">
-          <h2>Leave a Review</h2>
+        </aside>
+
+        <ul class="list-group mb-3">
+          <li class="list-group-item active">Archives</li>
+          <li class="list-group-item"><a href="#">2018</a></li>
+          <li class="list-group-item"><a href="#">2019</a></li>
+          <li class="list-group-item"><a href="#">2020</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT SECTION -->
+<section>
+  <div class="container">
+    <div class="row">
+      <!-- REVIEW  -->
+      <div class="col-md-10">
+        <h2>Leave a Review</h2>
         <form action="/blogs/<%=blogs._id%>/reviews" method="POST" class="validated-form mb-3" novalidate>
           <div class="mb-3">
             <fieldset class="starability-basic">
@@ -51,26 +85,28 @@
           </div>
           <button class="btn btn-success">Submit</button>
         </form>
-        <!-- Review -->
-        <div class="mb-3">
-          <% for(let review of blogs.reviews){ %>
-            <div class="card mb-3">
-              <div class="card-body">
-                <!--The Author goes here -->
-                <p class="starability-result" data-rating="<%=review.rating%>">
-                  Rated: <%= review.rating %> stars
-                </p>
-                <p class="card-text">Review: <%= review.body %> </p>
-              </div>
-              <form action="/blogs/<%=blogs._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
-                <button class="btn btn-sm btn-danger">Delete</button>
-              </form>
-            </div> 
-          <%}%> 
-        </div>  
-        </div>
+      </div>
+
+      <!-- Review -->
+      <div class="mb-3">
+      <% for(let review of blogs.reviews){ %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <!--The Author goes here -->
+            <p class="starability-result" data-rating="<%=review.rating%>">
+              Rated: <%= review.rating %> stars
+            </p>
+            <p class="card-text">Review: <%= review.body %> </p>
+          </div>
+          <div class="card-footer">
+            <form action="/blogs/<%=blogs._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-sm btn-danger">Delete</button>
+              <a href="#edit" class="btn btn-sm btn-info">Edit</a>
+            </form>
+          </div>
+        </div> 
+      <%}%> 
+      </div>  
     </div>
   </div>
 </section>
-
-

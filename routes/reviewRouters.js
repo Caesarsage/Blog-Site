@@ -16,11 +16,17 @@ reviewRouter.route('/')
   res.redirect(`/blogs/${blogs._id}`);
 }))
 
-reviewRouter.route('/:reviewId').delete( catchAsync(async(req, res)=>{
+reviewRouter.route('/:reviewId')
+.delete( catchAsync(async(req, res)=>{
  const { id, reviewId} = req.params;
   const blogs = await Blog.findByIdAndUpdate(id, { $pull: { reviews: reviewId }})
   await Review.findByIdAndDelete(reviewId);
   res.redirect(`/blogs/${blogs._id}`)
+}))
+
+reviewRouter.route('/:reviewId/edit')
+.get( catchAsync( async(req, res)=>{
+  
 }))
 
 module.exports = reviewRouter

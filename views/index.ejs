@@ -5,13 +5,16 @@
   <div class="container">
     <div class="row">
       <% for(let blog of blogs) {%> 
-        <div class="col-md-3 mb-3">  
+        <div class="col-md-4 mb-3">  
           <div class="card my-card">
             <div class="card-body">
-              <img src="<%= blog.image %>" alt="<%= blog.title %>" class="img-thumbnails">
+              <img src="<%= blog.image %>" alt="<%= blog.title %>" class="img-fluid">
               <h3 class="card-title"> <%= blog.title %> </h3>
               <p class="card-text text-muted">  <%= blog.content.slice(0, 50) %>...</p>
               <a href="/blogs/<%=blog._id %>" class="btn btn-sm btn-primary"> Read More</a>
+              <br>
+            </div>
+            <div class="card-footer">
               <small><%= blog.createdAt %> </small>
             </div>
           </div>
