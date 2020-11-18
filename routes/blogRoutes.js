@@ -6,9 +6,11 @@ const router = express.Router();
 
 router.route('/')
 .get(catchAsync(async (req, res) =>{
-  const blogs = await Blog.find({});
+  const { page = 1, limit = 10} = req.query;
+  const blogs = await Blog.find({}).limit(limit * 1).skip((page-1)*limit);
   res.render('index', {
-    blogs
+    blogs,
+    page
   })
 }))
 .post(catchAsync(async (req, res)=>{

@@ -1,25 +1,52 @@
 <% layout('layout/boilerplate') %> 
 
 <!-- Body Content -->
-<section class="home-content mt-4 ">
-  <div class="container">
-    <div class="row">
+<section class="home-content mt-4 mb-3">
+  <!-- <div class="container"> -->
+    <!-- <div class="row"> -->  <div class="card">
       <% for(let blog of blogs) {%> 
-        <div class="col-md-4 mb-3">  
-          <div class="card my-card">
-            <div class="card-body">
-              <img src="<%= blog.image %>" alt="<%= blog.title %>" class="img-fluid">
-              <h3 class="card-title"> <%= blog.title %> </h3>
-              <p class="card-text text-muted">  <%= blog.content.slice(0, 50) %>...</p>
-              <a href="/blogs/<%=blog._id %>" class="btn btn-sm btn-primary"> Read More</a>
-              <br>
-            </div>
-            <div class="card-footer">
-              <small><%= blog.createdAt %> </small>
+        <div class="my-card pt-5">  
+          <div class="card-header">
+            <blockquote>PUBLISHED BY: DESTINY</blockquote> 
+            <h3 class="card-title"> <%= blog.title %> </h3>
+          </div>
+          <div class="card-body" >
+            <div class="row">   
+              <div class="col-md-11 text-center">
+                <p class="card-text text-muted">  <%= blog.content.slice(0, 150) %>...</p>
+                <a href="/blogs/<%=blog._id %>" class="btn btn-sm btn-primary"> Read More</a>
+                <br> 
+              </div>
             </div>
           </div>
+          <div class="card-footer">
+            <i> PUBLISHED :</i><small><%= blog.createdAt %> </small>
+          </div>
+         
         </div>  
-      <% } %> 
+      <% } %>  </div>
+    <!-- </div> -->
+  <!-- </div> -->
+</section>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+
+      </div>
+      <div class="btn-group col-md-6" role="group" aria-label="page pagination">
+        <div class="row">
+          <div class="col-md">
+            <% if(+page >= 2){%>
+              <a class="btn btn-info active" href="/blogs?page=<%= +page - 1%>">Previous</a>
+            <%}%>
+          </div>
+          <div class="col-md">
+            <a class="btn btn-info active"  href="/blogs?page=<%= +page + 1 %> ">Next</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

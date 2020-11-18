@@ -43,10 +43,7 @@ app.use('/blogs', blogRouter);
 app.use('/blogs/:id/reviews', reviewRouter)
 
 app.get('/', catchAsync(async (req, res)=>{
-  const blogs = await Blog.find({});
-  res.render('index', {
-    blogs
-  })
+  res.redirect(`/blogs`);
 }));
 
 app.get('/fallback', catchAsync(async (req, res)=>{
