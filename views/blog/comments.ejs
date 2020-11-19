@@ -1,0 +1,7 @@
+<% layout('layout/boilerplate') %>
+<form action="/reviews/<%=reviews._id%>/comments" method="POST">
+  <textarea name="comment[body]" id="commentBody" cols="30" rows="10">
+
+  </textarea>
+  <button>submit</button>
+</form>

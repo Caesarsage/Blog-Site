@@ -15,6 +15,7 @@ const blogRouter = require('./routes/blogRoutes');
 const reviewRouter = require('./routes/reviewRouters');
 const ExpressError = require('./utils/expressError');
 const catchAsync = require('./utils/catchAsync');
+const commentRouter = require('./routes/commentRoutes');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(methodOverride('_method'));
 // routes
 app.use('/blogs', blogRouter);
 app.use('/blogs/:id/reviews', reviewRouter)
+app.use('/reviews/:reviewId/comments', commentRouter)
 
 app.get('/', catchAsync(async (req, res)=>{
   res.redirect(`/blogs`);

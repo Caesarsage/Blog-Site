@@ -11,6 +11,7 @@ module.exports.blogSchema = Joi.object({
 module.exports.reviewSchema = Join.object({
   review: Joi.object({
     body: Joi.string().required(),
-    rating: Joi.number().required().min(1).max(5)
+    rating: Joi.number().required().min(1).max(5),
+    // comments: Joi.string()
   }).required()
 })
