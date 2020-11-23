@@ -13,10 +13,10 @@ const ReviewSchema = new Schema({
     type: Number,
     required: true
   },
-  comments:{
+  comments:[{
     type: Schema.Types.ObjectId,
     ref: 'Comments'
-  }
+  }]
 });
 
 const Review = mongoose.model('Review', ReviewSchema);

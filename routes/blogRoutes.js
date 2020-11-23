@@ -1,4 +1,5 @@
 const express = require('express');
+const { isLoggedin } = require('../Middleware/middleware');
 const Blog = require('../models/blogModel');
 const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
@@ -8,20 +9,23 @@ const router = express.Router();
 router.route('/')
 .get(catchAsync(async (req, res) =>{
   const { page = 1, limit = 10} = req.query;
-  const blogs = await Blog.find({}).limit(limit * 1).skip((page-1)*limit);
+  const blogs = await Blog.find({}).limit(limit * 1).skip((page-1)*limit).populate('author');
+  console.log(req.user);
   res.render('index', {
     blogs,
     page
   })
 }))
-.post(catchAsync(async (req, res)=>{
+.post( isLoggedin, catchAsync(async (req, res)=>{
   const blogs = new Blog( req.body.blog );
+  blogs.author = req.user._id;
   await blogs.save();
+  req.flash('success', "Successfully made a new blog");
   res.redirect(`/blogs`)
 }));
 
 router.route('/new')
-.get((req, res)=>{
+.get( isLoggedin, (req, res)=>{
   res.render('blog/new')
 });
 
@@ -33,7 +37,7 @@ router.route('/:id')
     populate: {
       path: 'comments'
     }
-  });
+  }).populate('author');
   console.log(blogs);  
   if (!blogs) {
     return res.redirect("/fallback");

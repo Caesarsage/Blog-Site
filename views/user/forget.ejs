@@ -1,0 +1,18 @@
+<% layout('layout/boilerplate') %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form action="/forget" method="POST" class="validated-form">
+        <legend>Forgot Password</legend>
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email">
+        </div>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <button class="btn btn-primary mt-3">Reset Password</button>
+      </form>
+    </div>
+  </div>
+</div> 

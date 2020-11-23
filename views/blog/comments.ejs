@@ -1,7 +1,24 @@
 <% layout('layout/boilerplate') %>
-<form action="/reviews/<%=reviews._id%>/comments" method="POST">
-  <textarea name="comment[body]" id="commentBody" cols="30" rows="10">
-
-  </textarea>
-  <button>submit</button>
-</form>
+<div class="container-fluid">
+  <div class="row">
+    <h5> <a href="/blogs/<%= blogs._id %> ">View the comment</a></h5>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <% for(let comment of reviews.comments){ %>
+        <ul>
+          <li></li>
+        </ul>
+        <h5 class="text-primary"><%= comment.body %></h5>
+      <% } %>  
+    </div>
+    <div class="col-md-6">
+      <form action="/blogs/<%= blogs._id %>/reviews/<%=reviews._id%>/comments" method="POST">
+        <label for="commentBody" class="form-label">Reply comment</label>
+        <textarea class="form-control" name="comment[body]" id="commentBody" cols="3" rows="4"></textarea>
+        <button class="btn btn-outline-info btn-block">Reply</button>
+      </form>
+    </div>
+  </div>
+  
+</div>

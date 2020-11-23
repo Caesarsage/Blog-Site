@@ -9,27 +9,24 @@ const commentRouter = express.Router({mergeParams: true});
 
 commentRouter.route('/')
 .get( catchAsync( async(req, res)=>{
-  const { reviewId} = req.params
+  const {id, reviewId} = req.params;
+  const blogs = await Blog.findById(id);
   const reviews = await Review.findById(reviewId).populate('comments');
-
   console.log(reviews);
-
   res.render('blog/comments',{
-    reviews
+    reviews,
+    blogs
   })
 }))
 .post( catchAsync(async(req,res)=>{
-  const {id, reviewId } = req.params; 
-  const blogs = await Blog.findById(id);
+  const { reviewId, id } = req.params;
+  const blogs = await Blog.findById(id); 
   const review = await Review.findById(reviewId);
   const comment = new Comment(req.body.comment);
   review.comments.push(comment);
   await review.save();
   await comment.save();
-  console.log(review);
-  console.log(blogs);
-  // res.send(comment)
-  // res.redirect(`/blogs/${blogs._id}`);
+  res.redirect(`/blogs/${blogs._id}/reviews/${review._id}/comments`);
 }));
 
 module.exports =  commentRouter

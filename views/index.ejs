@@ -17,12 +17,14 @@
     <% for(let blog of blogs) {%>
     <div class="my-card pt-5">
       <div class="card-header">
-        <blockquote>PUBLISHED BY: DESTINY</blockquote>
+        
+        <blockquote>PUBLISHED BY: <%= blog.author.FirstName.toUpperCase() %> </blockquote>
         <h3 class="card-title"> <%= blog.title %> </h3>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-11 text-center">
+            <h5><%= blog.capture %> </h5> 
             <p class="card-text text-muted"> <%= blog.content.slice(0, 150) %>...</p>
             <a href="/blogs/<%=blog._id %>" class="btn btn-sm btn-primary"> Read More</a>
             <br>
@@ -41,21 +43,30 @@
 
 <section>
   <div class="container">
-    <div class="btn-group" role="group" aria-label="page pagination">
-      <div class="row">
-        <div class="col-sm-12 col-md-12 mb-3">
-          <a class="btn  btn-outline-info" href="/blogs?page=<%= 1%>">Fist Page</a>
-          <% if(+page >= 2){%>
-            <a class="btn btn-info " href="/blogs?page=<%= +page - 1%>">Prev</a>
-          <%}%>
-          <a class="btn btn-info" href="/blogs?page=<%= 2%>">2</a>
-          <a class="btn btn-info" href="/blogs?page=<%= 3%>">3</a>
-          <a class="btn btn-info" href="/blogs?page=<%= 4%>">4</a>
-          <a class="btn btn-info " href="/blogs?page=<%= 5%>">5</a>
-          <a class="btn btn-outline-info" href="/blogs?page=<%= 22 %>">Last Page</a>
-          <a class="btn btn-info active"  href="/blogs?page=<%= +page + 1 %> ">Next</a>
-        </div>
-      </div>
-    </div>
+    <nav aria-label="page pagination">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="/blogs?page=<%= 2%>">First Page</a></li>
+        <% if(+page >= 2){%>
+        <li class="page-item">
+          <a class="page-link" href="/blogs?page=<%= +page - 1%>" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+        <%}%>
+        <li class="page-item"><a class="page-link" href="/blogs?page=<%= 2%>">2</a></li>
+        <li class="page-item" aria-current="page">
+          <a class="page-link" href="/blogs?page=<%= 3%>">3</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="/blogs?page=<%= 4%>">4</a></li>
+        <li class="page-item"><a class="page-link" href="/blogs?page=<%= 5%>">5</a></li>
+        <li class="page-item"><a class="page-link" href="/blogs?page=<%= 6%>">6</a></li>
+        <li class="page-item">
+          <a class="page-link" href="/blogs?page=<%= +page + 1 %> ">Next</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="/blogs?page=<%= 22 %> ">Last</a>
+        </li>
+      </ul>
+    </nav>
   </div>
-</section>
+
+  
+ 
