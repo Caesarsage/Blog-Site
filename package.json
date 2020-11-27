@@ -19,6 +19,7 @@
     "ejs-mate": "^3.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "font-awesome": "^4.7.0",
     "joi": "^17.3.0",
     "method-override": "^3.0.0",
     "mongoose": "^5.10.10",

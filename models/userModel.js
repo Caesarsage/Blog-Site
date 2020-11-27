@@ -20,6 +20,7 @@ const UserSchema = new Schema({
   resetPasswordExpires: String,
   avatar: String,
   Headline: String,
+  description: String,
   website: String,
   twitter: String,
   linkedIn: String,

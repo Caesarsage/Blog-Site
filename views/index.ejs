@@ -3,12 +3,11 @@
 <!-- Body Content -->
 
 <div class="row">
-  <ol class="col-12 breadcrumb">
-    <li class="breadcrumb-item active"><a href="/blogs">Home</a></li>
-    <li class="breadcrumb-item ">Contact </li>
-    <li class="breadcrumb-item text-info"> PAGE N0: <%= page %> </li>
+  <ol class="col-12 breadcrumb ">
+    <li class="breadcrumb-item "><a class="text-decoration-none" href="">Contact</a> </li>
+    <li class="breadcrumb-item text-info"> PAGE N0: <%= page %> </li>  
   </ol>
-    <hr>
+  <hr>
 </div>
 <section class="home-content mt-4 mb-3">
   <!-- <div class="container"> -->
@@ -17,14 +16,13 @@
     <% for(let blog of blogs) {%>
     <div class="my-card pt-5">
       <div class="card-header">
-        
         <blockquote>PUBLISHED BY: <%= blog.author.FirstName.toUpperCase() %> </blockquote>
         <h3 class="card-title"> <%= blog.title %> </h3>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-11 text-center">
-            <h5><%= blog.capture %> </h5> 
+            <h5><%= blog.capture %> </h5>
             <p class="card-text text-muted"> <%= blog.content.slice(0, 150) %>...</p>
             <a href="/blogs/<%=blog._id %>" class="btn btn-sm btn-primary"> Read More</a>
             <br>
@@ -67,6 +65,3 @@
       </ul>
     </nav>
   </div>
-
-  
- 

@@ -9,6 +9,7 @@ const userRouter = express.Router();
 
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
+const Blog = require('../models/blogModel');
 
 userRouter.route('/register')
 .get((req, res)=>{
@@ -16,13 +17,22 @@ userRouter.route('/register')
 })
 .post(catchAsync(async(req, res)=>{
   try {
-    const {password, username, FirstName, LastName, email } = req.body
-    const user = new User({username,FirstName, LastName, email});
-    const registeredUser = await User.register(user, password)
+    const {password, username, FirstName, LastName, email, avatar, Headline, 
+            website, twitter,linkedIn, facebook } = req.body;
+    const user = new User({username,FirstName, LastName, email, avatar, Headline, 
+      website, twitter,linkedIn, facebook, description});
+      user.avatar =  "https://images.unsplash.com/photo-1502489743911-88606f93ba47?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9";
+      user.Headline = '';
+      user.description = '';
+      user.website = '';
+      user.twitter = '';
+      user.linkedIn = '';
+      user.facebook = '';
+    const registeredUser = await User.register(user, password);
     req.login(registeredUser, err =>{
       if (err) return next(err);
       req.flash('success', 'Welcome Back!!!');
-      res.redirect(`/user/${user._id}`)
+      res.redirect(`/user/profile/${user._id}`)
     })
   } catch (e) {
     req.flash('error', e.message);
@@ -34,8 +44,28 @@ userRouter.route('/profile/:id')
 .get(catchAsync(async(req, res)=>{
   const { id } = req.params;
   const user = await User.findById(id)
+  const blogs = await Blog.find({'author': user._id });
+  console.log(user);
+  console.log(blogs);
   res.render('user/dashboard', {
-    user
+    user,
+    blogs
+  });
+  if (!user) {
+    req.flash('error', 'Something went wrong')
+    res.redirect('/')
+  }
+})).put(catchAsync(async(req, res)=>{
+  res.send(req.body);
+}))
+;
+
+userRouter.route('/profile/:id/edit')
+.get(catchAsync(async(req, res)=>{
+  const { id } = req.params;
+  const user = await User.findById(id)
+  res.render('user/edit', {
+   user 
   });
   if (!user) {
     req.flash('error', 'Something went wrong')

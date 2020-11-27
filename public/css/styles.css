@@ -2,7 +2,11 @@ img{
   height: 450px;
   max-height:100%;
 }
-
+.circle{
+  border-radius: 50%!important;
+  width: 19em;
+  height: 19em;
+}
 .my-card, .my-list{
   transition: all 0.4s ease-in-out;
   cursor: pointer;

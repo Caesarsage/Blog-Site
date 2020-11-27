@@ -9,7 +9,7 @@ const router = express.Router();
 router.route('/')
 .get(catchAsync(async (req, res) =>{
   const { page = 1, limit = 10} = req.query;
-  const blogs = await Blog.find({}).limit(limit * 1).skip((page-1)*limit).populate('author');
+  const blogs = await Blog.find({}).limit(limit * 1).skip((page-1)*limit).sort({$natural: -1}).populate('author');
   console.log(req.user);
   res.render('index', {
     blogs,
