@@ -1,5 +1,5 @@
 const express = require('express');
-const { isLoggedin } = require('../Middleware/middleware');
+const { isLoggedin, isAuthor } = require('../Middleware/middleware');
 const Blog = require('../models/blogModel');
 const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
@@ -46,20 +46,20 @@ router.route('/:id')
     blogs
   })
 }))
-.put(catchAsync(async (req, res)=>{
+.put(isLoggedin, isAuthor, catchAsync(async (req, res)=>{
   const { id }= req.params;
   const blogs = await Blog.findByIdAndUpdate(id , req.body.blogs , {new: true})
   await blogs.save();
   res.redirect(`/blogs/${blogs._id}`)
 }))
-.delete( catchAsync(async(req,res)=>{
+.delete(isLoggedin, isAuthor, catchAsync(async(req,res)=>{
   const {id} = req.params;
   const blogs = await Blog.findByIdAndDelete(id);
   res.redirect('/fallback')
 }));
 
 router.route('/:id/edit')
-.get( catchAsync(async (req, res)=>{
+.get(isLoggedin, isAuthor, catchAsync(async (req, res)=>{
   const { id }= req.params;
   const blogs = await Blog.findById(id);
   if (!blogs) {

@@ -10,6 +10,7 @@ const userRouter = express.Router();
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const Blog = require('../models/blogModel');
+const { isLoggedin } = require('../Middleware/middleware');
 
 userRouter.route('/register')
 .get((req, res)=>{
@@ -17,7 +18,7 @@ userRouter.route('/register')
 })
 .post(catchAsync(async(req, res)=>{
   try {
-    const {password, username, FirstName, LastName, email, avatar, Headline, 
+    const {password, username, FirstName, LastName, email, avatar, Headline, description,
             website, twitter,linkedIn, facebook } = req.body;
     const user = new User({username,FirstName, LastName, email, avatar, Headline, 
       website, twitter,linkedIn, facebook, description});
@@ -41,7 +42,7 @@ userRouter.route('/register')
 }));
 
 userRouter.route('/profile/:id')
-.get(catchAsync(async(req, res)=>{
+.get(isLoggedin ,catchAsync(async(req, res)=>{
   const { id } = req.params;
   const user = await User.findById(id)
   const blogs = await Blog.find({'author': user._id });
@@ -56,12 +57,16 @@ userRouter.route('/profile/:id')
     res.redirect('/')
   }
 })).put(catchAsync(async(req, res)=>{
-  res.send(req.body);
-}))
+  const { id } = req.params;
+  const user = await User.findByIdAndUpdate(id, req.body);
+  await user.save();
+  req.flash('success', 'Updated Profile');
+  res.redirect(`/user/profile/${user._id}`)
+}));
 ;
 
 userRouter.route('/profile/:id/edit')
-.get(catchAsync(async(req, res)=>{
+.get(isLoggedin, catchAsync(async(req, res)=>{
   const { id } = req.params;
   const user = await User.findById(id)
   res.render('user/edit', {

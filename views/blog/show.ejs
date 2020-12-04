@@ -15,7 +15,7 @@
               <em class="text-success"><%= blogs.createdAt.toString().substring(0, 15) %> </em>
             </div>
             <div class="card-footer row">
-              <h5>Created By :<a href="/user/profile/<%=blogs.author._id%>"> <%= blogs.author.FirstName.toUpperCase() %> </a></h5>
+              <h5 class="card-text text-muted">Created By: <a  class="btn btn--sm btn-outline-primary" href="/user/profile/<%=blogs.author._id%>"> <%= blogs.author.FirstName.toUpperCase() %> </a></h5>
               <a href="/blogs/<%=blogs._id%>/edit" class="col-md-1 btn btn-info mb-3">Edit</a>
               <form class="col-md-6" action="/blogs/<%=blogs._id%>?_method=DELETE" method="POST">
                 <button class="btn btn-sm-block btn-danger">Delete</button>
@@ -105,10 +105,7 @@
             <p class="card-text">Review: <%= review.body %> </p>
           </div>
           <div class="card-footer">
-            <form action="/blogs/<%=blogs._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
-              <button class="btn btn-sm btn-danger">Delete</button>
               <a href="/blogs/<%=blogs._id%>/reviews/<%=review._id%>/comments" class="btn btn-sm btn-info">Reply</a>
-            </form>
           </div>
         </div> 
       <%}%> 

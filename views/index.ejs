@@ -16,7 +16,9 @@
     <% for(let blog of blogs) {%>
     <div class="my-card pt-5">
       <div class="card-header">
-        <blockquote>PUBLISHED BY: <%= blog.author.FirstName.toUpperCase() %> </blockquote>
+        <blockquote class="">PUBLISHED BY:
+          <a class="btn btn-sm btn-outline-info" href="/user/profile/<%=blog.author._id%>"> <%= blog.author.FirstName.toUpperCase() %> <%= blog.author.LastName.toUpperCase() %> </a> 
+        </blockquote>
         <h3 class="card-title"> <%= blog.title %> </h3>
       </div>
       <div class="card-body">
