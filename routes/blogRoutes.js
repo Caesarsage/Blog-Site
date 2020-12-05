@@ -3,6 +3,7 @@ const { isLoggedin, isAuthor } = require('../Middleware/middleware');
 const Blog = require('../models/blogModel');
 const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
+const request = require('request');
 
 const router = express.Router();
 
@@ -28,6 +29,64 @@ router.route('/new')
 .get( isLoggedin, (req, res)=>{
   res.render('blog/new')
 });
+
+router.route('/subscribe')
+.post((req, res)=>{
+  const { email, firstName, lastName } = req.body;
+
+  if (!email && firstName && lastName) {
+    req.flash('error', 'please input your email before submitting');
+    res.redirect('/blog')
+  }
+
+  // Construct request data
+  const data = {
+    members: [
+      {
+        email_address: email,
+        status: 'subscribed',
+        merge_fields: {
+          FNAME: firstName,
+          LNAME: lastName
+        }
+      }
+    ]
+  }
+
+  const postData = JSON.stringify(data);
+
+  const options = {
+    url:   "https://us7.api.mailchimp.com/3.0/lists/8e4e136a09",
+    method: 'POST',
+    headers: {
+      Authorization:`auth ${process.env.MAILCHIMP_API_KEY}`
+    },
+    body: postData 
+  }
+
+  request(options, (err, response, body)=>{
+    if (err) {
+      req.flash('error', `ouch something went wrong!!!`);
+      res.redirect('/blogs')
+    }else{
+      if (response.statusCode === 200) {
+        const newBody = JSON.parse(body);
+        if (newBody.new_members.length) {
+          console.log('SUCCESS', newBody);
+          console.log(newBody.errors);
+          req.flash('success', 'Successfully subscribed to our newsletter')
+          res.redirect('/blogs');
+        }else{
+          req.flash('error', 'Email Already existed, please provide another!!!')
+          res.redirect('/blogs');
+        }
+      }else{
+        req.flash('error', `ouch!!!`)
+        res.redirect('/blogs')
+      }
+    }
+  })
+})
 
 router.route('/:id')
 .get( catchAsync(async(req,res)=>{

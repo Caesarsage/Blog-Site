@@ -56,11 +56,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="" method="POST">
+        <form action="/blogs/subscribe" method="POST">
           <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
-            <!-- <a href="mailto:destinyerhabor6@gmail.com">Email</a> -->
-            <input type="email" name="" class="form-control" id="email" placeholder="your email address">
+            <input type="email" name="email" class="form-control" id="email" placeholder="your email address" required>
+          </div>
+          <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" name="firstName" class="form-control" id="firstName" placeholder="Enter your First Name" required>
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Enter your Last Name" required>
           </div>
           <div class="mb-3">
             <button class="btn btn-sm btn-success">Subscribe</button>
