@@ -46,8 +46,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(morgan('tiny'));
 app.use(methodOverride('_method'));
 
-// FLASH CONFIG
-app.use(flash());
+
 
 // Auth
 // express session
@@ -70,7 +69,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
+// FLASH CONFIG
+app.use(flash());
 // locals: available to the template 
 // must be after express session  and passport config
 app.use((req, res, next )=>{
@@ -82,22 +82,14 @@ app.use((req, res, next )=>{
 });
 
 // routes
+app.use('/user', userRouter);
 app.use('/blogs', blogRouter);
 app.use('/blogs/:id/reviews', reviewRouter)
-app.use('/user', userRouter);
 app.use('/blogs/:id/reviews/:reviewId/comments', commentRouter)
 
 app.get('/', catchAsync(async (req, res)=>{
   req.user;
   res.redirect(`/blogs`);
-}));
-
-app.get('/fallback', catchAsync(async (req, res)=>{
-  const blogs = await Blog.find({});
-  console.log(blogs);
-  res.render('fallback', {
-    blogs
-  })
 }));
 
 app.all('*', (req, res, next)=>{ 

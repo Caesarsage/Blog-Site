@@ -1,7 +1,6 @@
 const express = require('express');
 const { isLoggedin, isAuthor } = require('../Middleware/middleware');
 const Blog = require('../models/blogModel');
-const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
 const request = require('request');
 
@@ -16,7 +15,7 @@ router.route('/')
     blogs,
     page
   })
-}))
+})) //POST NEW BLOG
 .post( isLoggedin, catchAsync(async (req, res)=>{
   const blogs = new Blog( req.body.blog );
   blogs.author = req.user._id;
@@ -25,11 +24,18 @@ router.route('/')
   res.redirect(`/blogs`)
 }));
 
+// create new blog views
 router.route('/new')
 .get( isLoggedin, (req, res)=>{
   res.render('blog/new')
 });
 
+router.route('/about')
+.get((req, res)=>{
+  const user = User
+  res.render('blog/about')
+})
+// Subscribe to Newsletter route and setup
 router.route('/subscribe')
 .post((req, res)=>{
   const { email, firstName, lastName } = req.body;
@@ -99,7 +105,8 @@ router.route('/:id')
   }).populate('author');
   console.log(blogs);  
   if (!blogs) {
-    return res.redirect("/fallback");
+    req.flash('error', 'Cannot find that campground')
+    return res.redirect("/blogs");
   }
   res.render('blog/show', {
     blogs
@@ -109,16 +116,18 @@ router.route('/:id')
   const { id }= req.params;
   const blogs = await Blog.findByIdAndUpdate(id , req.body.blogs , {new: true})
   await blogs.save();
+  req.flash('success', 'Successfully made a updated campground!');
   res.redirect(`/blogs/${blogs._id}`)
 }))
 .delete(isLoggedin, isAuthor, catchAsync(async(req,res)=>{
-  const {id} = req.params;
-  const blogs = await Blog.findByIdAndDelete(id);
-  res.redirect('/fallback')
+  const { id } = req.params;
+  await Blog.findByIdAndDelete(id);
+  req.flash('success', 'Successfully deleted a campground!');
+  res.redirect('/blogs')
 }));
 
 router.route('/:id/edit')
-.get(isLoggedin, isAuthor, catchAsync(async (req, res)=>{
+.get( isLoggedin, isAuthor, catchAsync(async (req, res)=>{
   const { id }= req.params;
   const blogs = await Blog.findById(id);
   if (!blogs) {

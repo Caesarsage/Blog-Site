@@ -10,7 +10,8 @@ const userRouter = express.Router();
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const Blog = require('../models/blogModel');
-const { isLoggedin } = require('../Middleware/middleware');
+const { isLoggedin, isUser } = require('../Middleware/middleware');
+const Review = require('../models/reviewModel');
 
 userRouter.route('/register')
 .get((req, res)=>{
@@ -18,6 +19,7 @@ userRouter.route('/register')
 })
 .post(catchAsync(async(req, res)=>{
   try {
+    const review = Review.find({});
     const {password, username, FirstName, LastName, email, avatar, Headline, description,
             website, twitter,linkedIn, facebook } = req.body;
     const user = new User({username,FirstName, LastName, email, avatar, Headline, 
@@ -32,8 +34,8 @@ userRouter.route('/register')
     const registeredUser = await User.register(user, password);
     req.login(registeredUser, err =>{
       if (err) return next(err);
-      req.flash('success', 'Welcome Back!!!');
-      res.redirect(`/user/profile/${user._id}`)
+      req.flash('success', 'Welcome Kindly Update your Profile for visibility!!!');
+      res.redirect(`/user/profile/${user._id}`);
     })
   } catch (e) {
     req.flash('error', e.message);
@@ -49,24 +51,23 @@ userRouter.route('/profile/:id')
   console.log(user);
   console.log(blogs);
   res.render('user/dashboard', {
-    user,
-    blogs
-  });
-  if (!user) {
-    req.flash('error', 'Something went wrong')
-    res.redirect('/')
-  }
-})).put(catchAsync(async(req, res)=>{
+      user,
+      blogs
+    });
+    if (!user) {
+      req.flash('error', 'Something went wrong')
+      res.redirect('/')
+    }
+})).put(isLoggedin, catchAsync(async(req, res)=>{
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, req.body);
   await user.save();
   req.flash('success', 'Updated Profile');
   res.redirect(`/user/profile/${user._id}`)
 }));
-;
 
 userRouter.route('/profile/:id/edit')
-.get(isLoggedin, catchAsync(async(req, res)=>{
+.get( isLoggedin, isUser, catchAsync(async(req, res)=>{
   const { id } = req.params;
   const user = await User.findById(id)
   res.render('user/edit', {
@@ -83,8 +84,10 @@ userRouter.route('/login')
   res.render('user/login')
 })
 .post( passport.authenticate('local',{failureFlash: true, failureRedirect: '/user/login'}), (req, res)=>{
-  req.flash('success', 'Welcome Back!!!');
+  console.log(req.user);
+  req.flash('success', 'Welcome!!!');
   const redirectUrl = req.session.returnTo || '/blogs';
+  delete req.session.returnTo;
   res.redirect(redirectUrl);
 });
 

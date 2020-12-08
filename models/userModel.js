@@ -16,6 +16,7 @@ const UserSchema = new Schema({
     required: true,
     unique: true
   },
+  isAdmin: Boolean,
   resetPasswordToken: String,
   resetPasswordExpires: String,
   avatar: String,
