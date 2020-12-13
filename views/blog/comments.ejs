@@ -6,12 +6,12 @@
   <div class="row">
     <div class="col-md-6">
       <% for(let comment of reviews.comments){ %>
-        <!-- <ul>
-          <li></li>
-        </ul> -->
-        <h5 class="text-primary"><%= comment.body %>
-        <div class=""> <%= currentUser.username || 'Anonymous' %> </div>
-        </h5>
+        <i>
+          <% if (!currentUser) { %>
+            <div class="">  <%= 'Anonymous'%> </div>
+          <% }
+        </i> 
+        <h5 class="text-primary"><%= comment.body %>  </h5>      
       <% } %>  
     </div>
     <div class="col-md-6">
