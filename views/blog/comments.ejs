@@ -7,9 +7,9 @@
     <div class="col-md-6">
       <% for(let comment of reviews.comments){ %>
         <i>
-          <% if (!currentUser) { %>
+     
             <div class="">  <%= 'Anonymous'%> </div>
-          <% }
+         
         </i> 
         <h5 class="text-primary"><%= comment.body %>  </h5>      
       <% } %>  

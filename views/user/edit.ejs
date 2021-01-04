@@ -1,18 +1,18 @@
 <% layout('layout/boilerplate') %>
 <div class="row">
 
-  <div class="col-6 offset-3">
+  <div class="col-md-6 offset-md-3">
     <h1 class="text-center">Public Profile</h1>
     <p class="text-center">Add Information about yourself</p>
-    <form action="/user/profile/<%=user._id%>?_method=PUT" method="POST">
+    <form action="/user/profile/<%=user._id%>?_method=PUT" method="POST" enctype="multipart/form-data">
       <div class="mb-3">
           <figure>
-            <img class="rounded circle" src="/images/slide1.jpg" alt="">
+            <img class="rounded circle" src="<%= user.avatar.path %> "  alt="">
           </figure>
         </div>
         <fieldset>
         <div class="mb-3 form-file custom-file">
-          <input type="file" class="form-file-input" id="image" name="image" multiple>
+          <input type="file" class="form-file-input" id="image" name="image">
           <label class="form-file-label" for="image">
             <span class="form-file-text custom-file-label">Choose image(s)...</span>
             <span class="form-file-button">Browse</span>
@@ -84,7 +84,8 @@
           <i>input your linkedIn full url e.g https://wwww.linkedIn.com/in/destiny-erhabor</i>
         </div>
       </fieldset>
-      <button class="btn btn-success btn-lg">submit</button>
+      <button class="btn btn-success btn-lg">Submit</button>
+      <a href="/user/profile/<%= user._id %> " class="btn btn-info btn-lg">Go Back</a>
   </div>
 
   </form>

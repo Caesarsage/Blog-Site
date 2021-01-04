@@ -9,7 +9,11 @@ const BlogSchema = new Schema({
   capture: {
     type: String
   },
-  image: String,
+  image: {
+      path: String,
+      filename: String
+    }
+  ,
   content: {
     type: String,
     required: true

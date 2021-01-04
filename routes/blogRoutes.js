@@ -1,8 +1,12 @@
 const express = require('express');
-const { isLoggedin, isAuthor } = require('../Middleware/middleware');
+const { isLoggedin, isAuthor, validateBlog } = require('../Middleware/middleware');
 const Blog = require('../models/blogModel');
 const catchAsync = require('../utils/catchAsync');
 const request = require('request');
+// image handling with multer
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 
 const router = express.Router();
 
@@ -13,11 +17,13 @@ router.route('/')
   console.log(req.user);
   res.render('index', {
     blogs,
-    page
+    page,
+    limit
   })
 })) //POST NEW BLOG
-.post( isLoggedin, catchAsync(async (req, res)=>{
+.post( isLoggedin, upload.single('image'), validateBlog, catchAsync(async (req, res)=>{
   const blogs = new Blog( req.body.blog );
+  blogs.image = req.file;
   blogs.author = req.user._id;
   await blogs.save();
   req.flash('success', "Successfully made a new blog");
@@ -112,9 +118,10 @@ router.route('/:id')
     blogs
   })
 }))
-.put(isLoggedin, isAuthor, catchAsync(async (req, res)=>{
+.put( isAuthor, upload.single('image'), catchAsync(async (req, res)=>{
   const { id }= req.params;
-  const blogs = await Blog.findByIdAndUpdate(id , req.body.blogs , {new: true})
+  const blogs = await Blog.findByIdAndUpdate(id , req.body.blogs);
+  blogs.image = req.file;
   await blogs.save();
   req.flash('success', 'Successfully made a updated campground!');
   res.redirect(`/blogs/${blogs._id}`)

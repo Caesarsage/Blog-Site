@@ -6,7 +6,7 @@
         <a href="/user/profile/<%= user._id %>/edit" class="btn btn-sm btn-outline-primary mb-2">Edit Public Profile</a>
     <% } %>
     <figure>
-      <img class="rounded circle" src="<%= user.avatar %> " alt="">
+      <img class="rounded circle" src="<%= user.avatar.path %> " alt="">
     </figure>
     <figcaption>
         <h4> <%= user.Headline.toUpperCase() %></h4>

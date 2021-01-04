@@ -2,15 +2,35 @@
 
 <div class="row">
   <h1 class="text-center">Edit Blog</h1>
-  <div class="col-6 offset-3">
-    <form action="/blogs/<%=blogs._id%>?_method=PUT" method="POST">  
+  <hr>
+  <div class="col-md-6 offset-md-3">
+    <form action="/blogs/<%=blogs._id%>?_method=PUT" method="POST" enctype="multipart/form-data">  
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
-        <input type="text" id="title" name="blogs[title]" value="<%= blogs.title %> ">
+        <input type="text" id="title" name="blogs[title]" class="form-control" value="<%= blogs.title %> ">
         <div class="valid-feedback">
           Looks good!
         </div>
       </div>
+      <div class="mb-3">
+        <label class="form-label" for="title">Capture</label>
+        <input type="text" id="title" name="blogs[capture]" class="form-control" value="<%= blogs.capture %> ">
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+      </div>
+      <!-- <div class="col-md-6 offset-md-3"> -->
+      <figure class="text-center">
+        <img src="<%= blogs.image.path %> " alt="" class="rounded circle">
+      </figure>
+      <div class="mb-3 form-file custom-file">          
+        <input type="file" class="form-file-input" id="image" name="image">
+          <label class="form-file-label" for="image">
+            <span class="form-file-text custom-file-label">Change image(s)...</span>
+            <span class="form-file-button">Browse</span>
+          </label>
+      </div>
+      <!-- </div>     -->
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control" id="content" cols="10" rows="5"  name="blogs[content]">
@@ -19,14 +39,6 @@
         <div class="valid-feedback">
           Looks good!
         </div>
-      </div>
-      
-      <div class="mb-3 form-file custom-file">          
-        <input type="file" class="form-file-input" id="image" name="image" multiple>
-          <label class="form-file-label" for="image">
-            <span class="form-file-text custom-file-label">Choose image(s)...</span>
-            <span class="form-file-button">Browse</span>
-          </label>
       </div>
       <button class="btn btn-success btn-lg">submit</button>
 </div>

@@ -19,7 +19,10 @@ const UserSchema = new Schema({
   isAdmin: Boolean,
   resetPasswordToken: String,
   resetPasswordExpires: String,
-  avatar: String,
+  avatar: {
+    path: String,
+    filename: String
+  },
   Headline: String,
   description: String,
   website: String,

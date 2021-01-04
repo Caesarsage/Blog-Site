@@ -6,15 +6,19 @@ const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate');
+// debugger
 const chalk = require('chalk');
 const morgan = require('morgan');
+// flash messages
 const flash = require('connect-flash')
+// storage
 const session = require('express-session');
+// auth with passport
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
+// Model
 const User = require('./models/userModel')
-
 const blogRouter = require('./routes/blogRoutes');
 const reviewRouter = require('./routes/reviewRouters');
 const userRouter = require('./routes/userRoutes');

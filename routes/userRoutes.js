@@ -12,6 +12,10 @@ const catchAsync = require('../utils/catchAsync');
 const Blog = require('../models/blogModel');
 const { isLoggedin, isUser } = require('../Middleware/middleware');
 const Review = require('../models/reviewModel');
+// image handling with multer
+const multer = require('multer');
+const { storage } = require('../cloudinary/index');
+const upload = multer({ storage });
 
 userRouter.route('/register')
 .get((req, res)=>{
@@ -24,7 +28,7 @@ userRouter.route('/register')
             website, twitter,linkedIn, facebook } = req.body;
     const user = new User({username,FirstName, LastName, email, avatar, Headline, 
       website, twitter,linkedIn, facebook, description});
-      user.avatar =  "https://images.unsplash.com/photo-1502489743911-88606f93ba47?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9";
+      user.avatar.path =  "https://res.cloudinary.com/caesarsage/image/upload/v1609756924/Blog/User_Avatar_2_xllrql.png";
       user.Headline = '';
       user.description = '';
       user.website = '';
@@ -58,9 +62,11 @@ userRouter.route('/profile/:id')
       req.flash('error', 'Something went wrong')
       res.redirect('/')
     }
-})).put(isLoggedin, catchAsync(async(req, res)=>{
+})).put(isLoggedin, upload.single('image'), catchAsync(async(req, res)=>{
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, req.body);
+  user.avatar = req.file;  
+  console.log(user.avatar);
   await user.save();
   req.flash('success', 'Updated Profile');
   res.redirect(`/user/profile/${user._id}`)
@@ -91,12 +97,15 @@ userRouter.route('/login')
   res.redirect(redirectUrl);
 });
 
+userRouter.route('/admin')
+.get((req, res)=>{
+  res.render('user/about');
+})
 
-
-// userRouter.route('/forget')
-// .get((req, res)=>{
-//   res.render('user/forget');
-// })
+userRouter.route('/forget')
+.get((req, res)=>{
+  res.render('user/forget');
+})
 // .post( (req, res, next)=>{
 //   async.waterfall([
 //     (done)=>{

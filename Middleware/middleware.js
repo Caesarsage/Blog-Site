@@ -2,6 +2,7 @@ const Blog = require("../models/blogModel");
 const Review = require("../models/reviewModel");
 const Comment = require("../models/commentModel");
 const User = require("../models/userModel");
+const { blogSchema, reviewSchema } = require("../joiSchema");
 
 module.exports.isLoggedin = (req, res, next) =>{
   if (!req.isAuthenticated()) {
@@ -10,6 +11,26 @@ module.exports.isLoggedin = (req, res, next) =>{
     return res.redirect('/user/login')
   }
   next()
+}
+
+module.exports.validateBlog = (req,res,next)=>{
+  const { error } =  blogSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  }else{
+    next();
+  }
+}
+
+module.exports.validateReview = (req,res,next)=>{
+  const {error}= reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  }else{
+    next();
+  }
 }
 
 module.exports.isAuthor = async(req,res, next)=>{
